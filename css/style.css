@@ -1,0 +1,23 @@
+/* Minimal subtle texture */
+.grain {
+    position: relative;
+}
+
+.grain:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .06;
+    mix-blend-mode: multiply;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3"/></filter><rect width="160" height="160" filter="url(%23n)" opacity="0.25"/></svg>');
+    background-size: 160px 160px;
+}
+
+.elev {
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.backdrop-blur-s {
+    backdrop-filter: saturate(150%) blur(10px);
+}

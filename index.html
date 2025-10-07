@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Nuestra Boda — Natalia & Enrique</title>
+		<meta
+			name="description"
+			content="Invitación digital de boda. Moderno, minimalista y elegante. Incluye secciones Nos casamos, Cuándo y dónde, Galería, Confirmación y Mesa de regalos."
+		/>
+
+		<!-- TailwindCSS via CDN -->
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+			tailwind.config = {
+				theme: {
+					extend: {
+						fontFamily: {
+							display: ["Playfair Display", "serif"],
+							sans: [
+								"Inter",
+								"ui-sans-serif",
+								"system-ui",
+								"-apple-system",
+								"Segoe UI",
+								"Roboto",
+								"Helvetica Neue",
+								"Arial",
+								"Noto Sans",
+								"sans-serif",
+							],
+						},
+						colors: {
+							ink: "#0f172a", // slate-900
+							soft: "#f8fafc", // slate-50
+							accent: "#0ea5e9", // sky-500
+							gold: "#b08d57", // elegant accent
+						},
+						boxShadow: {
+							soft: "0 10px 30px rgba(2,6,23,.08)",
+						},
+					},
+				},
+			};
+		</script>
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;700&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- GSAP -->
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+
+		<style>
+			/* Minimal subtle texture */
+			.grain {
+				position: relative;
+			}
+			.grain:before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				pointer-events: none;
+				opacity: 0.06;
+				mix-blend-mode: multiply;
+				background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3"/></filter><rect width="160" height="160" filter="url(%23n)" opacity="0.25"/></svg>');
+				background-size: 160px 160px;
+			}
+			.elev {
+				box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+			}
+			.backdrop-blur-s {
+				backdrop-filter: saturate(150%) blur(10px);
+			}
+		</style>
+	</head>
+	<body class="bg-soft text-ink font-sans antialiased">
+		<!-- Navbar -->
+		<header class="fixed top-0 inset-x-0 z-50">
+			<nav class="mx-auto max-w-6xl px-4">
+				<div
+					class="mt-4 mb-2 flex items-center justify-between rounded-2xl bg-white/70 backdrop-blur-s border border-white/60 elev"
+				>
+					<a href="#inicio" class="px-4 py-3 font-display text-xl tracking-wide"
+						>N<span class="text-gold">&</span>E</a
+					>
+					<ul class="hidden md:flex gap-1 p-1 text-sm">
+						<li>
+							<a class="px-4 py-2 rounded-xl hover:bg-soft" href="#nos-casamos"
+								>Nos casamos</a
+							>
+						</li>
+						<li>
+							<a class="px-4 py-2 rounded-xl hover:bg-soft" href="#cuando-donde"
+								>Cuándo y dónde</a
+							>
+						</li>
+						<li>
+							<a class="px-4 py-2 rounded-xl hover:bg-soft" href="#galeria"
+								>Galería</a
+							>
+						</li>
+						<li>
+							<a class="px-4 py-2 rounded-xl hover:bg-soft" href="#itinerario"
+								>Itinerario</a
+							>
+						</li>
+						<li>
+							<a class="px-4 py-2 rounded-xl hover:bg-soft" href="#dresscode"
+								>Dress code</a
+							>
+						</li>
+						<li>
+							<a class="px-4 py-2 rounded-xl hover:bg-soft" href="#historia"
+								>Historia</a
+							>
+						</li>
+
+						<li>
+							<a class="px-4 py-2 rounded-xl hover:bg-soft" href="#confirmacion"
+								>Confirmación</a
+							>
+						</li>
+						<li>
+							<a class="px-4 py-2 rounded-xl hover:bg-soft" href="#mesa-regalos"
+								>Mesa de regalos</a
+							>
+						</li>
+					</ul>
+					<a
+						href="#confirmacion"
+						class="hidden md:inline-flex items-center gap-2 px-4 py-2 mr-2 rounded-xl bg-ink text-white hover:opacity-90"
+						>Confirmar asistencia</a
+					>
+					<button
+						id="menuBtn"
+						class="md:hidden px-4 py-3"
+						aria-label="Abrir menú"
+					>
+						<svg
+							width="24"
+							height="24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							viewBox="0 0 24 24"
+						>
+							<path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />
+						</svg>
+					</button>
+				</div>
+				<div
+					id="mobileMenu"
+					class="hidden md:hidden mt-2 mb-4 rounded-2xl bg-white/90 backdrop-blur-s border border-white/60 p-2 space-y-2"
+				>
+					<a
+						class="block px-3 py-3 rounded-xl hover:bg-soft"
+						href="#nos-casamos"
+						>Nos casamos</a
+					>
+					<a
+						class="block px-3 py-3 rounded-xl hover:bg-soft"
+						href="#cuando-donde"
+						>Cuándo y dónde</a
+					>
+					<a class="block px-3 py-3 rounded-xl hover:bg-soft" href="#galeria"
+						>Galería</a
+					>
+					<a class="block px-3 py-3 rounded-xl hover:bg-soft" href="#itinerario"
+						>Itinerario</a
+					>
+					<a class="block px-3 py-3 rounded-xl hover:bg-soft" href="#dresscode"
+						>Dress code</a
+					>
+					<a class="block px-3 py-3 rounded-xl hover:bg-soft" href="#historia"
+						>Historia</a
+					>
+
+					<a
+						class="block px-3 py-3 rounded-xl hover:bg-soft"
+						href="#confirmacion"
+						>Confirmación</a
+					>
+					<a
+						class="block px-3 py-3 rounded-xl hover:bg-soft"
+						href="#mesa-regalos"
+						>Mesa de regalos</a
+					>
+					<a
+						class="block px-3 py-3 rounded-xl bg-ink text-white"
+						href="#confirmacion"
+						>Confirmar asistencia</a
+					>
+				</div>
+			</nav>
+		</header>
+
+		<!-- Hero / Nos Casamos -->
+		<section id="inicio" class="grain relative min-h-[85vh] flex items-center">
+			<div class="absolute inset-0 bg-gradient-to-b from-white to-soft"></div>
+			<div
+				class="mx-auto max-w-6xl px-6 pt-28 pb-20 grid md:grid-cols-2 gap-10 items-center relative"
+			>
+				<div>
+					<p class="uppercase tracking-[.3em] text-xs md:text-sm text-ink/60">
+						La gran celebración
+					</p>
+					<h1
+						class="font-display text-4xl sm:text-5xl md:text-6xl leading-tight mt-3"
+					>
+						¡Nos casamos!
+					</h1>
+					<p class="text-lg md:text-xl text-ink/70 mt-4">
+						Acompáñanos a celebrar nuestro amor el
+						<span class="font-semibold">5 de diciembre de 2026</span>.
+					</p>
+
+					<!-- Countdown -->
+					<div class="mt-8">
+						<div class="text-sm text-ink/60">Faltan</div>
+						<div id="countdown" class="mt-2 grid grid-cols-4 gap-2 md:gap-4">
+							<div
+								class="rounded-2xl bg-white border border-white/70 p-4 text-center elev"
+							>
+								<div class="text-3xl md:text-5xl font-display" id="cd-days">
+									0
+								</div>
+								<div class="text-xs md:text-sm text-ink/60">días</div>
+							</div>
+							<div
+								class="rounded-2xl bg-white border border-white/70 p-4 text-center elev"
+							>
+								<div class="text-3xl md:text-5xl font-display" id="cd-hours">
+									0
+								</div>
+								<div class="text-xs md:text-sm text-ink/60">horas</div>
+							</div>
+							<div
+								class="rounded-2xl bg-white border border-white/70 p-4 text-center elev"
+							>
+								<div class="text-3xl md:text-5xl font-display" id="cd-mins">
+									0
+								</div>
+								<div class="text-xs md:text-sm text-ink/60">min</div>
+							</div>
+							<div
+								class="rounded-2xl bg-white border border-white/70 p-4 text-center elev"
+							>
+								<div class="text-3xl md:text-5xl font-display" id="cd-secs">
+									0
+								</div>
+								<div class="text-xs md:text-sm text-ink/60">seg</div>
+							</div>
+						</div>
+						<p class="text-sm text-ink/60 mt-2">para el gran día ✨</p>
+					</div>
+
+					<div class="mt-8 flex flex-wrap gap-3">
+						<a
+							href="#confirmacion"
+							class="px-5 py-3 rounded-xl bg-ink text-white hover:opacity-90"
+							>Confirmar asistencia</a
+						>
+						<a
+							href="#cuando-donde"
+							class="px-5 py-3 rounded-xl border border-ink/10 bg-white hover:bg-soft"
+							>Detalles del evento</a
+						>
+					</div>
+				</div>
+				<div class="relative">
+					<div
+						class="aspect-[4/5] rounded-3xl bg-white border border-white/70 elev overflow-hidden"
+					>
+						<img
+							src="assets/img/099.jpg"
+							alt="Pareja celebrando"
+							class="h-full w-full object-cover"
+						/>
+					</div>
+					<div class="absolute -right-6 -bottom-6 hidden md:block">
+						<div
+							class="rounded-3xl border border-ink/10 bg-white px-6 py-4 shadow-soft"
+						>
+							<p class="text-sm text-ink/60">Fecha</p>
+							<p class="font-display text-2xl">05 · 12 · 2026</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Cuando y donde -->
+		<section id="cuando-donde" class="py-20 md:py-28">
+			<div class="mx-auto max-w-6xl px-6">
+				<div class="md:flex md:items-end md:justify-between gap-6">
+					<div>
+						<h2 class="font-display text-3xl md:text-5xl">Cuándo y dónde</h2>
+						<p class="mt-3 text-ink/70 max-w-prose">
+							Ceremonia y recepción en el mismo lugar. Te recomendamos llegar
+							con 20 minutos de anticipación.
+						</p>
+					</div>
+					<a
+						href="#confirmacion"
+						class="inline-flex mt-6 md:mt-0 items-center gap-2 px-4 py-2 rounded-xl border border-ink/10 bg-white hover:bg-soft"
+						>Confirma tu asistencia</a
+					>
+				</div>
+
+				<div class="grid md:grid-cols-3 gap-6 mt-10">
+					<div class="rounded-3xl bg-white border border-white/70 p-6 elev">
+						<p class="text-sm text-ink/60">Fecha</p>
+						<p class="font-display text-2xl">Sábado 5 de diciembre de 2026</p>
+						<p class="mt-2">Ceremonia 17:00 · Recepción 18:00</p>
+					</div>
+					<div class="rounded-3xl bg-white border border-white/70 p-6 elev">
+						<p class="text-sm text-ink/60">Lugar</p>
+						<p class="font-display text-2xl">Hacienda La Aurora</p>
+						<p class="mt-2 text-ink/70">Monterrey, N.L.</p>
+					</div>
+					<div class="rounded-3xl bg-white border border-white/70 p-6 elev">
+						<p class="text-sm text-ink/60">Mapa</p>
+						<a
+							class="inline-flex items-center gap-2 mt-1 text-accent underline"
+							href="https://maps.google.com"
+							target="_blank"
+							rel="noopener"
+							>Abrir en Google Maps</a
+						>
+						<div
+							class="mt-4 aspect-[16/9] rounded-2xl bg-soft border border-ink/10 overflow-hidden"
+						>
+							<iframe
+								title="Mapa"
+								class="w-full h-full"
+								loading="lazy"
+								referrerpolicy="no-referrer-when-downgrade"
+								src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3356.000000!2d-100.309!3d25.6866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z!5e0!3m2!1ses!2smx!4v1715640000000"
+							></iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Galeria -->
+		<section id="galeria" class="py-20 md:py-28 bg-white">
+			<div class="mx-auto max-w-6xl px-6">
+				<h2 class="font-display text-3xl md:text-5xl">Galería</h2>
+				<p class="mt-3 text-ink/70 max-w-prose">
+					Un vistazo a nuestra historia. Pulsa en las fotos para verlas en
+					grande.
+				</p>
+
+				<div class="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+					<!-- Reemplaza las URLs con tus fotos -->
+					<img
+						class="gallery-item rounded-2xl w-full aspect-[3/4] md:aspect-[4/5] object-cover cursor-pointer"
+						src="assets/img/173.jpg"
+						alt=""
+						loading="lazy"
+						decoding="async"
+					/>
+					<img
+						class="gallery-item rounded-2xl w-full aspect-[3/4] md:aspect-[4/5] object-cover cursor-pointer"
+						src="assets/img/025.jpg"
+						alt=""
+						loading="lazy"
+						decoding="async"
+					/>
+					<img
+						class="gallery-item rounded-2xl w-full aspect-[3/4] md:aspect-[4/5] object-cover cursor-pointer"
+						src="assets/img/009.jpg"
+						alt=""
+						loading="lazy"
+						decoding="async"
+					/>
+					<img
+						class="gallery-item rounded-2xl w-full aspect-[3/4] md:aspect-[4/5] object-cover cursor-pointer"
+						src="assets/img/033.jpg"
+						alt=""
+						loading="lazy"
+						decoding="async"
+					/>
+					<img
+						class="gallery-item rounded-2xl w-full aspect-[3/4] md:aspect-[4/5] object-cover cursor-pointer"
+						src="assets/img/071.jpg"
+						alt=""
+						loading="lazy"
+						decoding="async"
+					/>
+					<img
+						class="gallery-item rounded-2xl w-full aspect-[3/4] md:aspect-[4/5] object-cover cursor-pointer"
+						src="assets/img/106.jpg"
+						alt=""
+						loading="lazy"
+						decoding="async"
+					/>
+				</div>
+			</div>
+
+			<!-- Lightbox modal -->
+			<div
+				id="lightbox"
+				class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/80 p-4"
+			>
+				<button
+					id="lightboxClose"
+					class="absolute top-6 right-6 text-white/90"
+					aria-label="Cerrar"
+				>
+					<svg
+						width="28"
+						height="28"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+					>
+						<path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+				<img
+					id="lightboxImg"
+					class="block mx-auto max-w-[92vw] max-h-[85svh] w-auto h-auto rounded-2xl shadow-2xl object-contain"
+					src=""
+					alt="imagen"
+				/>
+			</div>
+		</section>
+
+		<!-- Confirmacion -->
+		<section id="confirmacion" class="py-20 md:py-28">
+			<div class="mx-auto max-w-3xl px-6">
+				<h2 class="font-display text-3xl md:text-5xl text-center">
+					Confirmación
+				</h2>
+				<p class="mt-3 text-ink/70 text-center">
+					¡Nos encantará contar contigo! Por favor confirma antes del
+					<strong>10 de noviembre de 2026</strong>.
+				</p>
+
+				<form
+					id="rsvpForm"
+					class="mt-10 grid gap-4 bg-white border border-white/70 rounded-3xl p-6 elev"
+					action="#"
+					method="POST"
+				>
+					<!-- CONSEJO: conecta este formulario con Formspree u otro servicio y pega la URL en action -->
+					<div class="grid md:grid-cols-2 gap-4">
+						<label class="block">
+							<span class="text-sm text-ink/60">Nombre completo</span>
+							<input
+								required
+								name="nombre"
+								class="mt-1 w-full rounded-xl border border-ink/10 bg-soft px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
+								placeholder="Tu nombre"
+							/>
+						</label>
+						<label class="block">
+							<span class="text-sm text-ink/60">Correo electrónico</span>
+							<input
+								required
+								type="email"
+								name="email"
+								class="mt-1 w-full rounded-xl border border-ink/10 bg-soft px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
+								placeholder="tucorreo@email.com"
+							/>
+						</label>
+					</div>
+					<div class="grid md:grid-cols-2 gap-4">
+						<label class="block">
+							<span class="text-sm text-ink/60">¿Asistirás?</span>
+							<select
+								name="asistencia"
+								class="mt-1 w-full rounded-xl border border-ink/10 bg-soft px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
+							>
+								<option value="si">Sí, con gusto</option>
+								<option value="no">No podré asistir</option>
+							</select>
+						</label>
+						<label class="block">
+							<span class="text-sm text-ink/60">Número de acompañantes</span>
+							<input
+								type="number"
+								min="0"
+								max="10"
+								name="acompanantes"
+								class="mt-1 w-full rounded-xl border border-ink/10 bg-soft px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
+								value="0"
+							/>
+						</label>
+					</div>
+					<label class="block">
+						<span class="text-sm text-ink/60"
+							>Mensaje para los novios (opcional)</span
+						>
+						<textarea
+							name="mensaje"
+							rows="4"
+							class="mt-1 w-full rounded-xl border border-ink/10 bg-soft px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
+							placeholder="Con mucho cariño..."
+						></textarea>
+					</label>
+					<button
+						class="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-ink text-white px-6 py-3 hover:opacity-90"
+						type="submit"
+					>
+						Enviar confirmación
+					</button>
+					<p id="formMsg" class="text-sm text-ink/60"></p>
+				</form>
+
+				<p class="mt-6 text-center text-sm text-ink/60">
+					Código de vestimenta: <span class="font-medium">Formal</span>
+				</p>
+			</div>
+		</section>
+
+		<!-- Mesa de regalos -->
+		<section id="mesa-regalos" class="py-20 md:py-28 bg-white">
+			<div class="mx-auto max-w-6xl px-6">
+				<div class="md:flex md:items-center md:justify-between gap-6">
+					<div>
+						<h2 class="font-display text-3xl md:text-5xl">Mesa de regalos</h2>
+						<p class="mt-3 text-ink/70 max-w-prose">
+							Tu presencia es nuestro mejor regalo. Si deseas obsequiarnos,
+							hemos preparado una mesa en Liverpool.
+						</p>
+					</div>
+					<div class="mt-6 md:mt-0 flex gap-3">
+						<a
+							class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-ink text-white hover:opacity-90"
+							href="https://www.liverpool.com.mx/tienda/giftRegistry/giftRegistryDetail.jsp?eventNo=EJEMPLO"
+							target="_blank"
+							rel="noopener"
+							>Ir a Liverpool</a
+						>
+						<a
+							class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-ink/10 bg-soft hover:bg-white"
+							href="#"
+							onclick="navigator.clipboard.writeText('Evento: 12345678'); alert('Código copiado: 12345678'); return false;"
+							>Copiar código</a
+						>
+					</div>
+				</div>
+
+				<div class="grid md:grid-cols-3 gap-6 mt-10">
+					<div class="rounded-3xl border border-white/70 bg-soft p-6 elev">
+						<p class="text-sm text-ink/60">Banco</p>
+						<p class="font-display text-2xl">Transferencia</p>
+						<p class="mt-2 text-ink/70">CLABE: 012 345 678 901234567</p>
+						<button
+							class="mt-3 text-accent underline"
+							onclick="navigator.clipboard.writeText('012345678901234567'); alert('CLABE copiada');"
+						>
+							Copiar CLABE
+						</button>
+					</div>
+					<div class="rounded-3xl border border-white/70 bg-soft p-6 elev">
+						<p class="text-sm text-ink/60">Sugerencias</p>
+						<ul class="mt-2 list-disc pl-5 space-y-1 text-ink/80">
+							<li>Regalos para cocina y decoración</li>
+							<li>Experiencias (viaje, cenas)</li>
+							<li>Tarjetas de regalo</li>
+						</ul>
+					</div>
+					<div class="rounded-3xl border border-white/70 bg-soft p-6 elev">
+						<p class="text-sm text-ink/60">Contacto</p>
+						<p class="mt-2">
+							Para dudas sobre regalos:
+							<a class="text-accent underline" href="mailto:novios@email.com"
+								>novios@email.com</a
+							>
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Itinerario del día -->
+		<section id="itinerario" class="py-20 md:py-28">
+			<div class="mx-auto max-w-6xl px-6">
+				<div class="md:flex md:items-end md:justify-between gap-6">
+					<div>
+						<h2 class="font-display text-3xl md:text-5xl">
+							Itinerario del día
+						</h2>
+						<p class="mt-3 text-ink/70">
+							Desliza/scroll para vivir la experiencia.
+						</p>
+					</div>
+					<div class="flex gap-3 mt-6 md:mt-0">
+						<button
+							id="btnCalendarAll"
+							class="px-4 py-2 rounded-xl border border-ink/10 bg-white hover:bg-soft"
+						>
+							Añadir evento (.ics)
+						</button>
+						<button
+							id="btnCalendarCeremony"
+							class="px-4 py-2 rounded-xl bg-ink text-white hover:opacity-90"
+						>
+							Ceremonia (.ics)
+						</button>
+					</div>
+				</div>
+
+				<!-- STORYTELLING HORIZONTAL -->
+				<div
+					class="story relative mt-10 rounded-3xl border border-white/70 bg-white p-4 md:p-6 elev overflow-hidden"
+				>
+					<!-- Barra de progreso -->
+					<div
+						class="pointer-events-none absolute left-0 right-0 bottom-0 h-1 bg-soft"
+					>
+						<div
+							class="story-progress h-full w-full origin-left scale-x-0 bg-ink/80"
+						></div>
+					</div>
+					<!-- Indicadores -->
+					<div
+						class="absolute top-4 right-4 z-10 rounded-xl bg-soft/80 border border-ink/10 px-3 py-1 text-xs text-ink/70"
+					>
+						Hora: <span id="it-time">16:30</span>
+					</div>
+
+					<div
+						class="it-viewport relative overflow-hidden h-[360px] sm:h-[400px] md:h-[460px]"
+					>
+						<div
+							class="it-track absolute inset-0 flex gap-6 md:gap-8 will-change-transform"
+						>
+							<!-- Paso 1 -->
+							<article
+								class="it-step min-w-[88%] md:min-w-[58%] lg:min-w-[46%] rounded-3xl border border-white/70 bg-soft p-5 md:p-6 elev grid md:grid-cols-2 gap-4"
+							>
+								<div class="flex flex-col justify-center">
+									<p class="text-sm text-ink/60">16:30</p>
+									<h3 class="font-display text-2xl">Recepción de invitados</h3>
+									<p class="text-ink/70 mt-2">
+										Llega con calma, disfruta un coctel y encuentra tu mesa.
+									</p>
+								</div>
+								<div
+									class="rounded-2xl overflow-hidden bg-white border border-white/70"
+								>
+									<img
+										class="h-full w-full object-cover"
+										src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?q=80&w=1200&auto=format&fit=crop"
+										alt="Recepción"
+									/>
+								</div>
+							</article>
+							<!-- Paso 2 -->
+							<article
+								class="it-step min-w-[88%] md:min-w-[58%] lg:min-w-[46%] rounded-3xl border border-white/70 bg-soft p-5 md:p-6 elev grid md:grid-cols-2 gap-4"
+							>
+								<div class="flex flex-col justify-center">
+									<p class="text-sm text-ink/60">17:00</p>
+									<h3 class="font-display text-2xl">Ceremonia</h3>
+									<p class="text-ink/70 mt-2">
+										En el jardín principal. Corazones acelerados y promesas para
+										siempre.
+									</p>
+								</div>
+								<div
+									class="rounded-2xl overflow-hidden bg-white border border-white/70"
+								>
+									<img
+										class="h-full w-full object-cover"
+										src="https://images.unsplash.com/photo-1460364157752-926555421a7e?q=80&w=1200&auto=format&fit=crop"
+										alt="Ceremonia"
+									/>
+								</div>
+							</article>
+							<!-- Paso 3 -->
+							<article
+								class="it-step min-w-[88%] md:min-w-[58%] lg:min-w-[46%] rounded-3xl border border-white/70 bg-soft p-5 md:p-6 elev grid md:grid-cols-2 gap-4"
+							>
+								<div class="flex flex-col justify-center">
+									<p class="text-sm text-ink/60">18:00</p>
+									<h3 class="font-display text-2xl">Cena</h3>
+									<p class="text-ink/70 mt-2">
+										Brindis, palabras y sabores que recordaremos mucho tiempo.
+									</p>
+								</div>
+								<div
+									class="rounded-2xl overflow-hidden bg-white border border-white/70"
+								>
+									<img
+										class="h-full w-full object-cover"
+										src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1200&auto=format&fit=crop"
+										alt="Cena"
+									/>
+								</div>
+							</article>
+							<!-- Paso 4 -->
+							<article
+								class="it-step min-w-[88%] md:min-w-[58%] lg:min-w-[46%] rounded-3xl border border-white/70 bg-soft p-5 md:p-6 elev grid md:grid-cols-2 gap-4"
+							>
+								<div class="flex flex-col justify-center">
+									<p class="text-sm text-ink/60">20:00</p>
+									<h3 class="font-display text-2xl">Vals & Baile</h3>
+									<p class="text-ink/70 mt-2">
+										La pista se abre y celebramos hasta que duelan los pies.
+									</p>
+								</div>
+								<div
+									class="rounded-2xl overflow-hidden bg-white border border-white/70"
+								>
+									<img
+										class="h-full w-full object-cover"
+										src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1200&auto=format&fit=crop"
+										alt="Baile"
+									/>
+								</div>
+							</article>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Dress code / Inspiración -->
+		<section id="dresscode" class="py-20 md:py-28 bg-white">
+			<div class="mx-auto max-w-6xl px-6">
+				<h2 class="font-display text-3xl md:text-5xl">Dress code</h2>
+				<p class="mt-3 text-ink/70">
+					Formal elegante. Nos encantan los tonos neutros, dorados y verdes.
+					Evita el blanco para dejarlo a la novia ✨
+				</p>
+
+				<div class="mt-4 flex flex-wrap gap-2 text-sm">
+					<span
+						class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft border border-ink/10"
+					>
+						<svg
+							width="14"
+							height="14"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							class="text-green-600"
+						>
+							<path
+								d="M20 6L9 17l-5-5"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+						Formal elegante
+					</span>
+					<span
+						class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft border border-ink/10"
+					>
+						<svg
+							width="14"
+							height="14"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							class="text-amber-600"
+						>
+							<circle cx="12" cy="12" r="10" stroke-width="2" />
+							<path
+								d="M12 8v4m0 4h.01"
+								stroke-width="2"
+								stroke-linecap="round"
+							/>
+						</svg>
+						Tacón cómodo
+					</span>
+					<span
+						class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft border border-ink/10"
+					>
+						<svg
+							width="14"
+							height="14"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							class="text-rose-600"
+						>
+							<path
+								d="M18 6L6 18M6 6l12 12"
+								stroke-width="2"
+								stroke-linecap="round"
+							/>
+						</svg>
+						Evitar blanco
+					</span>
+				</div>
+
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+					<img
+						class="rounded-2xl object-cover w-full h-40 md:h-44"
+						src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop"
+						alt="Mood 1"
+					/>
+					<img
+						class="rounded-2xl object-cover w-full h-40 md:h-44"
+						src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=801&auto=format&fit=crop"
+						alt="Mood 2"
+					/>
+					<img
+						class="rounded-2xl object-cover w-full h-40 md:h-44"
+						src="https://images.unsplash.com/photo-1520974722077-4b9e1c1a27a8?q=80&w=800&auto=format&fit=crop"
+						alt="Mood 3"
+					/>
+					<img
+						class="rounded-2xl object-cover w-full h-40 md:h-44"
+						src="https://images.unsplash.com/photo-1520974722077-4b9e1c1a27a8?q=80&w=801&auto=format&fit=crop"
+						alt="Mood 4"
+					/>
+				</div>
+			</div>
+		</section>
+
+		<!-- Historia & Timeline -->
+		<!-- Historia — Storytelling melancólico -->
+		<section id="historia" class="relative">
+			<div class="mx-auto max-w-6xl px-6 pt-20 md:pt-28">
+				<h2 class="font-display text-3xl md:text-5xl">Nuestra historia</h2>
+				<p class="mt-3 text-ink/70 max-w-prose">
+					Un recorrido íntimo por los momentos que nos trajeron hasta aquí.
+				</p>
+			</div>
+
+			<!-- Escenario a pantalla completa con transiciones suaves -->
+			<div
+				class="hist-stage relative mt-8 h-[110svh] md:h-[120svh] lg:h-[140vh] overflow-hidden grain"
+			>
+				<!-- Capas de fondo -->
+				<div class="hist-bg absolute inset-0">
+					<!-- Reemplaza las imágenes por las tuyas -->
+					<img
+						class="hist-bg-item absolute inset-0 w-full h-full object-cover opacity-0 scale-[1.05]"
+						src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop"
+						alt="Cafetería"
+					/>
+					<img
+						class="hist-bg-item absolute inset-0 w-full h-full object-cover opacity-0 scale-[1.05]"
+						src="https://images.unsplash.com/photo-1519681394781-16be1c2c05d3?q=80&w=1600&auto=format&fit=crop"
+						alt="Montaña"
+					/>
+					<img
+						class="hist-bg-item absolute inset-0 w-full h-full object-cover opacity-0 scale-[1.05]"
+						src="https://images.unsplash.com/photo-1504805572947-34fad45aed93?q=80&w=1600&auto=format&fit=crop"
+						alt="Atardecer"
+					/>
+				</div>
+				<!-- Vignette & tono -->
+				<div
+					class="pointer-events-none absolute inset-0"
+					style="
+						background: radial-gradient(
+							ellipse at center,
+							rgba(0, 0, 0, 0) 40%,
+							rgba(0, 0, 0, 0.35) 100%
+						);
+					"
+				></div>
+				<div
+					class="pointer-events-none absolute inset-0 mix-blend-multiply"
+					style="
+						background: linear-gradient(
+							to bottom,
+							rgba(176, 141, 87, 0.12),
+							rgba(15, 23, 42, 0.25)
+						);
+					"
+				></div>
+
+				<!-- Pasos/escenas -->
+				<div class="hist-steps absolute inset-0 flex flex-col">
+					<article
+						class="hist-step flex-1 grid place-items-center text-center px-6"
+					>
+						<div class="max-w-2xl">
+							<p class="tracking-[.35em] uppercase text-xs text-white/70">
+								2019
+							</p>
+							<h3 class="font-display text-3xl md:text-5xl text-white mt-3">
+								Nos conocimos
+							</h3>
+							<p class="text-white/80 mt-3">
+								Entre libros y café, una conversación que no quisimos terminar.
+							</p>
+						</div>
+					</article>
+					<article
+						class="hist-step flex-1 grid place-items-center text-center px-6"
+					>
+						<div class="max-w-2xl">
+							<p class="tracking-[.35em] uppercase text-xs text-white/70">
+								2023
+							</p>
+							<h3 class="font-display text-3xl md:text-5xl text-white mt-3">
+								El compromiso
+							</h3>
+							<p class="text-white/80 mt-3">
+								Prometimos volver a ese mirador donde cabía todo el futuro.
+							</p>
+						</div>
+					</article>
+					<article
+						class="hist-step flex-1 grid place-items-center text-center px-6"
+					>
+						<div class="max-w-2xl">
+							<p class="tracking-[.35em] uppercase text-xs text-white/70">
+								2026
+							</p>
+							<h3 class="font-display text-3xl md:text-5xl text-white mt-3">
+								La boda
+							</h3>
+							<p class="text-white/80 mt-3">
+								Un atardecer más, pero esta vez con todos de testigos.
+							</p>
+						</div>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="py-12">
+			<div class="mx-auto max-w-6xl px-6 text-center">
+				<p class="font-display text-2xl">N & E</p>
+				<p class="text-sm text-ink/60 mt-2">
+					Gracias por ser parte de este día inolvidable.
+				</p>
+				<p class="text-xs text-ink/40 mt-4">© 2026</p>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+		<script>
+			// --- Mobile menu toggle ---
+			const menuBtn = document.getElementById("menuBtn");
+			const mobileMenu = document.getElementById("mobileMenu");
+			menuBtn?.addEventListener("click", () =>
+				mobileMenu.classList.toggle("hidden")
+			);
+
+			// --- Countdown ---
+			// Ajusta la hora del evento aquí (hora local del navegador)
+			const targetDate = new Date("2026-12-05T17:00:00");
+
+			function updateCountdown() {
+				const now = new Date();
+				const diff = targetDate - now;
+
+				if (diff <= 0) {
+					document.getElementById("countdown").innerHTML =
+						'<div class="col-span-4 text-center text-xl">¡Hoy es el gran día! 🎉</div>';
+					clearInterval(timer);
+					return;
+				}
+
+				const s = Math.floor(diff / 1000);
+				const days = Math.floor(s / 86400);
+				const hours = Math.floor((s % 86400) / 3600);
+				const mins = Math.floor((s % 3600) / 60);
+				const secs = s % 60;
+
+				document.getElementById("cd-days").textContent = days;
+				document.getElementById("cd-hours").textContent = String(
+					hours
+				).padStart(2, "0");
+				document.getElementById("cd-mins").textContent = String(mins).padStart(
+					2,
+					"0"
+				);
+				document.getElementById("cd-secs").textContent = String(secs).padStart(
+					2,
+					"0"
+				);
+			}
+			const timer = setInterval(updateCountdown, 1000);
+			updateCountdown();
+
+			// --- GSAP animations ---
+			gsap.registerPlugin(ScrollTrigger);
+
+			// Hero intro
+			gsap.from("#inicio h1", {
+				y: 30,
+				opacity: 0,
+				duration: 1,
+				ease: "power2.out",
+			});
+			gsap.from("#inicio p", {
+				y: 20,
+				opacity: 0,
+				duration: 1,
+				delay: 0.2,
+				ease: "power2.out",
+			});
+			gsap.from("#countdown > div", {
+				scale: 0.9,
+				opacity: 0,
+				duration: 0.6,
+				delay: 0.4,
+				ease: "back.out(1.7)",
+				stagger: 0.06,
+			});
+
+			// Reveal on scroll utility
+			const reveal = (selector) => {
+				gsap.utils.toArray(selector).forEach((el) => {
+					gsap.from(el, {
+						scrollTrigger: { trigger: el, start: "top 85%" },
+						y: 24,
+						opacity: 0,
+						duration: 0.8,
+						ease: "power2.out",
+					});
+				});
+			};
+			reveal("#cuando-donde .rounded-3xl");
+			reveal("#galeria img");
+			reveal("#confirmacion form");
+			reveal("#mesa-regalos .rounded-3xl");
+
+			// --- Lightbox ---
+			const lightbox = document.getElementById("lightbox");
+			const lightboxImg = document.getElementById("lightboxImg");
+			const lightboxClose = document.getElementById("lightboxClose");
+
+			document.querySelectorAll(".gallery-item").forEach((img) => {
+				img.addEventListener("click", () => {
+					document.documentElement.classList.add("overflow-hidden");
+					document.body.classList.add("overflow-hidden");
+					lightboxImg.src = img.src.replace("w=800", "w=1600");
+					lightbox.classList.remove("hidden");
+					gsap.fromTo(
+						"#lightboxImg",
+						{ scale: 0.95, opacity: 0 },
+						{ scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
+					);
+				});
+			});
+
+			const closeLb = () => {
+				lightbox.classList.add("hidden");
+				document.documentElement.classList.remove("overflow-hidden");
+				document.body.classList.remove("overflow-hidden");
+			};
+
+			// --- RSVP fake handler (muestra mensaje sin backend) ---
+			document
+				.getElementById("rsvpForm")
+				.addEventListener("submit", function (e) {
+					e.preventDefault();
+					const formMsg = document.getElementById("formMsg");
+					formMsg.textContent = "¡Gracias! Hemos recibido tu confirmación.";
+					this.reset();
+				});
+
+			// === (1) Parallax sutil en hero ===
+			gsap.to("#inicio img", {
+				yPercent: 8,
+				ease: "none",
+				scrollTrigger: {
+					trigger: "#inicio",
+					start: "top top",
+					end: "bottom top",
+					scrub: true,
+				},
+			});
+			gsap.to("#inicio .bg-gradient-to-b", {
+				opacity: 0.85,
+				ease: "none",
+				scrollTrigger: {
+					trigger: "#inicio",
+					start: "top top",
+					end: "bottom top",
+					scrub: true,
+				},
+			});
+
+			// === (5) Ken Burns sutil en galería (hover) ===
+			document.querySelectorAll("#galeria .gallery-item").forEach((img) => {
+				img.style.willChange = "transform";
+				img.addEventListener("mouseenter", () =>
+					gsap.to(img, { scale: 1.04, duration: 0.6, ease: "power2.out" })
+				);
+				img.addEventListener("mouseleave", () =>
+					gsap.to(img, { scale: 1, duration: 0.6, ease: "power2.in" })
+				);
+			});
+
+			// === (7) Aparición “split” de titulares ===
+			const splitReveal = (el) => {
+				const text = el.innerText;
+				el.innerHTML = text
+					.split("")
+					.map(
+						(c) =>
+							`<span class="inline-block will-change-transform">${
+								c === " " ? "&nbsp;" : c
+							}</span>`
+					)
+					.join("");
+				gsap.from(el.querySelectorAll("span"), {
+					y: "1.2em",
+					opacity: 0,
+					stagger: 0.02,
+					duration: 0.6,
+					ease: "power3.out",
+					scrollTrigger: { trigger: el, start: "top 85%" },
+				});
+			};
+			[
+				"#inicio h1",
+				"#cuando-donde h2",
+				"#galeria h2",
+				"#confirmacion h2",
+				"#mesa-regalos h2",
+			].forEach((sel) => {
+				const el = document.querySelector(sel);
+				if (el) splitReveal(el);
+			});
+
+			// === Utilidad: generar archivo ICS ===
+			function downloadICS({ title, description, location, start, end }) {
+				const pad = (n) => String(n).padStart(2, "0");
+				const toICS = (d) =>
+					d.getUTCFullYear() +
+					pad(d.getUTCMonth() + 1) +
+					pad(d.getUTCDate()) +
+					"T" +
+					pad(d.getUTCHours()) +
+					pad(d.getUTCMinutes()) +
+					pad(d.getUTCSeconds()) +
+					"Z";
+				const ics = [
+					"BEGIN:VCALENDAR",
+					"VERSION:2.0",
+					"PRODID:-//Boda N&A//ES",
+					"CALSCALE:GREGORIAN",
+					"METHOD:PUBLISH",
+					"BEGIN:VEVENT",
+					"DTSTART:" + toICS(start),
+					"DTEND:" + toICS(end),
+					"SUMMARY:" + title,
+					"DESCRIPTION:" + description,
+					"LOCATION:" + location,
+					"END:VEVENT",
+					"END:VCALENDAR",
+				].join("");
+				const blob = new Blob([ics], { type: "text/calendar" });
+				const url = URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = "boda.ics";
+				a.click();
+				URL.revokeObjectURL(url);
+			}
+
+			// Botones calendario (Itinerario)
+			document
+				.getElementById("btnCalendarAll")
+				?.addEventListener("click", () => {
+					downloadICS({
+						title: "Boda N & A — Evento completo",
+						description: "Recepción, ceremonia, cena y baile",
+						location: "Hacienda La Aurora, Monterrey N.L.",
+						start: new Date("2026-12-05T16:30:00"),
+						end: new Date("2026-12-06T00:30:00"),
+					});
+				});
+			document
+				.getElementById("btnCalendarCeremony")
+				?.addEventListener("click", () => {
+					downloadICS({
+						title: "Boda N & A — Ceremonia",
+						description: "Ceremonia en jardín principal",
+						location: "Hacienda La Aurora, Monterrey N.L.",
+						start: new Date("2026-12-05T17:00:00"),
+						end: new Date("2026-12-05T17:45:00"),
+					});
+				});
+
+			// Reveal de nuevas secciones
+			reveal("#itinerario .rounded-3xl");
+			reveal("#dresscode img");
+			reveal("#historia .rounded-3xl");
+
+			// === Storytelling GSAP para Itinerario ===
+			(() => {
+				if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+					// desactiva pin en desktop para usuarios que lo solicitan
+					ScrollTrigger.getAll().forEach((t) => t.kill());
+					// fallback: solo reveals
+					document.querySelectorAll("#itinerario .it-step").forEach((card) => {
+						card.style.opacity = "1";
+						card.style.transform = "none";
+					});
+					return;
+				}
+				const mq = window.matchMedia("(min-width: 768px)");
+				const container = document.querySelector("#itinerario .story");
+				const track = document.querySelector("#itinerario .it-track");
+				const steps = gsap.utils.toArray("#itinerario .it-step");
+				const progressEl = document.querySelector(
+					"#itinerario .story-progress"
+				);
+				const timeEl = document.getElementById("it-time");
+				const times = ["16:30", "17:00", "18:00", "20:00"]; // por paso
+				if (!container || !track || !steps.length) return;
+
+				const setupDesktop = () => {
+					const total = track.scrollWidth - track.clientWidth;
+					// Mueve la pista horizontalmente mientras se hace scroll y fija el contenedor
+					const st = gsap.to(track, {
+						x: () => -total,
+						ease: "none",
+						scrollTrigger: {
+							trigger: container,
+							start: "top top",
+							end: () => "+=" + (total + window.innerHeight * 0.25),
+							scrub: true,
+							pin: true,
+							snap: {
+								snapTo: (value) => {
+									// convierte progreso a índice de tarjeta
+									const idx = Math.round(value * (steps.length - 1));
+									return idx / (steps.length - 1);
+								},
+								duration: 0.2,
+								ease: "power1.inOut",
+							},
+							onUpdate: (self) => {
+								// Progreso barra
+								progressEl.style.transform = `scaleX(${self.progress})`;
+								// Resalta paso actual y actualiza hora
+								const idx = Math.round(self.progress * (steps.length - 1));
+								timeEl.textContent = times[idx] || times[times.length - 1];
+								steps.forEach((card, i) => {
+									const isActive = i === idx;
+									gsap.to(card, {
+										scale: isActive ? 1.03 : 1,
+										opacity: isActive ? 1 : 0.7,
+										duration: 0.25,
+										overwrite: "auto",
+									});
+								});
+							},
+						},
+					});
+					// Parallax sutil en imágenes internas
+					steps.forEach((s) => {
+						const img = s.querySelector("img");
+						if (!img) return;
+						gsap.fromTo(
+							img,
+							{ scale: 1.05 },
+							{
+								scale: 1,
+								ease: "none",
+								scrollTrigger: {
+									trigger: container,
+									start: "top top",
+									end: "bottom top",
+									scrub: true,
+								},
+							}
+						);
+					});
+				};
+
+				const setupMobile = () => {
+					// Sin pin; sólo reveal suave por paso
+					steps.forEach((card) => {
+						gsap.from(card, {
+							y: 24,
+							opacity: 0,
+							duration: 0.6,
+							ease: "power2.out",
+							scrollTrigger: { trigger: card, start: "top 85%" },
+						});
+					});
+				};
+
+				if (mq.matches) setupDesktop();
+				else setupMobile();
+				mq.addEventListener("change", (e) => {
+					ScrollTrigger.getAll().forEach((t) => t.kill());
+					if (e.matches) setupDesktop();
+					else setupMobile();
+				});
+			})();
+		</script>
+		<script>
+			// === Storytelling melancólico para Historia ===
+			// Requiere: gsap y ScrollTrigger cargados
+			(() => {
+				const section = document.querySelector("#historia .hist-stage");
+				const bgs = gsap.utils.toArray("#historia .hist-bg-item");
+				const steps = gsap.utils.toArray("#historia .hist-step");
+				if (!section || !bgs.length || !steps.length) return;
+
+				// Respeta prefers-reduced-motion
+				if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+					bgs[0].style.opacity = 1;
+					return;
+				}
+
+				// Tinte melancólico
+				bgs.forEach((el) => {
+					el.style.filter =
+						"grayscale(40%) sepia(12%) contrast(95%) brightness(95%)";
+				});
+
+				// Timeline con pin + scrub
+				const tl = gsap.timeline({
+					defaults: { ease: "power1.out" },
+					scrollTrigger: {
+						trigger: section,
+						start: "top top",
+						end: "+=" + window.innerHeight * steps.length,
+						scrub: 0.6,
+						pin: true,
+					},
+				});
+
+				// Estado inicial
+				gsap.set(bgs[0], { opacity: 1, scale: 1 });
+				steps.forEach((s, i) =>
+					gsap.set(s.children[0], { y: 30, opacity: i === 0 ? 1 : 0 })
+				);
+
+				// Transiciones escena a escena
+				for (let i = 0; i < steps.length; i++) {
+					const isLast = i === steps.length - 1;
+					const currBg = bgs[i];
+					const nextBg = bgs[i + 1];
+					const currTxt = steps[i].children[0];
+					const nextTxt = steps[i + 1]?.children[0];
+
+					tl.to(currTxt, { opacity: 1, y: 0, duration: 0.8 }, "scene" + i).to(
+						currBg,
+						{ opacity: 1, scale: 1, duration: 1.2 },
+						"scene" + i
+					);
+
+					if (!isLast) {
+						tl.to(
+							currTxt,
+							{ opacity: 0, y: -20, duration: 0.8 },
+							"scene" + i + "+=0.6"
+						)
+							.to(
+								currBg,
+								{ opacity: 0, scale: 1.03, duration: 1.2 },
+								"scene" + i + "+=0.6"
+							)
+							.to(
+								nextBg,
+								{ opacity: 1, scale: 1, duration: 1.2 },
+								"scene" + i + "+=0.6"
+							)
+							.fromTo(
+								nextTxt,
+								{ opacity: 0, y: 30 },
+								{ opacity: 1, y: 0, duration: 0.9 },
+								"scene" + i + "+=0.8"
+							);
+					}
+				}
+
+				// Partículas sutiles tipo “polvo”
+				const dustN = 20,
+					layer = document.createElement("div");
+				layer.className = "pointer-events-none absolute inset-0";
+				section.appendChild(layer);
+				for (let i = 0; i < dustN; i++) {
+					const d = document.createElement("span");
+					d.style.cssText =
+						"position:absolute;width:2px;height:2px;background:rgba(255,255,255,.6);border-radius:50%;filter:blur(1px);opacity:0;";
+					layer.appendChild(d);
+					gsap.set(d, {
+						x: gsap.utils.random(0, section.clientWidth),
+						y: gsap.utils.random(0, section.clientHeight),
+					});
+					gsap.to(d, {
+						y: "-=" + gsap.utils.random(40, 80),
+						x: "+=" + gsap.utils.random(-20, 20),
+						opacity: gsap.utils.random(0.15, 0.35),
+						duration: gsap.utils.random(2.5, 4.5),
+						repeat: -1,
+						yoyo: true,
+						ease: "sine.inOut",
+						delay: Math.random() * 2,
+					});
+				}
+			})();
+		</script>
+	</body>
+</html>
