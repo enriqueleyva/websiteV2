@@ -120,22 +120,41 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
 const lightboxClose = document.getElementById("lightboxClose");
 
-document.querySelectorAll(".gallery-item").forEach((img) => {
-	img.addEventListener("click", () => {
-		lightboxImg.src = img.src.replace("w=800", "w=1600");
-		lightbox.classList.remove("hidden");
-		gsap.fromTo(
-			"#lightboxImg",
-			{ scale: 0.95, opacity: 0 },
-			{ scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
-		);
+if (lightbox && lightboxImg) {
+	document.querySelectorAll(".gallery-item").forEach((img) => {
+		img.addEventListener("click", () => {
+			document.documentElement.classList.add("overflow-hidden");
+			document.body.classList.add("overflow-hidden");
+			lightboxImg.src = img.src.replace("w=800", "w=1600");
+			lightbox.classList.remove("hidden");
+			gsap.fromTo(
+				"#lightboxImg",
+				{ scale: 0.95, opacity: 0 },
+				{ scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
+			);
+		});
 	});
+}
+
+const closeLb = () => {
+	lightbox.classList.add("hidden");
+	document.documentElement.classList.remove("overflow-hidden");
+	document.body.classList.remove("overflow-hidden");
+};
+
+lightboxClose?.addEventListener("click", (event) => {
+	event.stopPropagation();
+	closeLb();
 });
 
-const closeLb = () => lightbox.classList.add("hidden");
-lightboxClose.addEventListener("click", closeLb);
-lightbox.addEventListener("click", (e) => {
-	if (e.target === lightbox) closeLb();
+lightbox.addEventListener("click", (event) => {
+	if (event.target === lightbox) closeLb();
+});
+
+document.addEventListener("keydown", (event) => {
+	if (event.key === "Escape" && !lightbox.classList.contains("hidden")) {
+		closeLb();
+	}
 });
 
 // --- RSVP fake handler (muestra mensaje sin backend) ---
