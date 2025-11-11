@@ -405,15 +405,18 @@
 			</div>
 
 			<!-- Lightbox modal -->
-			<div
-				id="lightbox"
-				class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/80 p-4"
-			>
-				<button
-					id="lightboxClose"
-					class="absolute top-6 right-6 text-white/90"
-					aria-label="Cerrar"
-				>
+                        <div
+                                id="lightbox"
+                                aria-hidden="true"
+                                class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/80 p-4"
+                        >
+                                <button
+                                        id="lightboxClose"
+                                        type="button"
+                                        data-close-lightbox
+                                        class="absolute top-6 right-6 text-white/90"
+                                        aria-label="Cerrar"
+                                >
 					<svg
 						width="28"
 						height="28"
@@ -1030,29 +1033,60 @@
 			reveal("#mesa-regalos .rounded-3xl");
 
 			// --- Lightbox ---
-			const lightbox = document.getElementById("lightbox");
-			const lightboxImg = document.getElementById("lightboxImg");
-			const lightboxClose = document.getElementById("lightboxClose");
+                        (function () {
+                                const lightbox = document.getElementById("lightbox");
+                                const lightboxImg = document.getElementById("lightboxImg");
+                                const lightboxClose = document.getElementById("lightboxClose");
+                                const galleryItems = document.querySelectorAll(".gallery-item");
+                                if (!lightbox || !lightboxImg || !lightboxClose || !galleryItems.length) return;
 
-			document.querySelectorAll(".gallery-item").forEach((img) => {
-				img.addEventListener("click", () => {
-					document.documentElement.classList.add("overflow-hidden");
-					document.body.classList.add("overflow-hidden");
-					lightboxImg.src = img.src.replace("w=800", "w=1600");
-					lightbox.classList.remove("hidden");
-					gsap.fromTo(
-						"#lightboxImg",
-						{ scale: 0.95, opacity: 0 },
-						{ scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
-					);
-				});
-			});
+                                const lockScroll = (shouldLock) => {
+                                        const method = shouldLock ? "add" : "remove";
+                                        document.documentElement.classList[method]("overflow-hidden");
+                                        document.body.classList[method]("overflow-hidden");
+                                };
 
-			const closeLb = () => {
-				lightbox.classList.add("hidden");
-				document.documentElement.classList.remove("overflow-hidden");
-				document.body.classList.remove("overflow-hidden");
-			};
+                                const openLightbox = (img) => {
+                                        lockScroll(true);
+                                        lightboxImg.src = img.src.includes("w=")
+                                                ? img.src.replace(/w=\d+/g, "w=1600")
+                                                : img.src;
+                                        lightbox.classList.remove("hidden");
+                                        lightbox.setAttribute("aria-hidden", "false");
+                                        gsap.fromTo(
+                                                lightboxImg,
+                                                { scale: 0.95, opacity: 0 },
+                                                { scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
+                                        );
+                                };
+
+                                const closeLightbox = () => {
+                                        lightbox.classList.add("hidden");
+                                        lightbox.setAttribute("aria-hidden", "true");
+                                        lockScroll(false);
+                                };
+
+                                galleryItems.forEach((img) => {
+                                        img.addEventListener("click", () => openLightbox(img));
+                                });
+
+                                lightboxClose.addEventListener("click", (event) => {
+                                        event.preventDefault();
+                                        closeLightbox();
+                                });
+
+                                lightbox.addEventListener("click", (event) => {
+                                        if (event.target === lightbox) {
+                                                closeLightbox();
+                                        }
+                                });
+
+                                document.addEventListener("keydown", (event) => {
+                                        if (event.key === "Escape" && !lightbox.classList.contains("hidden")) {
+                                                closeLightbox();
+                                        }
+                                });
+                        })();
 
 			// --- RSVP fake handler (muestra mensaje sin backend) ---
 			document
